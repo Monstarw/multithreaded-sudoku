@@ -8,9 +8,9 @@ typedef struct{	//保存了传递给线程的所需参数，指定了线程开�
     int (* board)[9];	//数独指针
 } parameters;
 
-int * walk_rows(parameters * params);	//行检查函数声明
-int * walk_cols(parameters * params);	//列检查函数声明
-int * check_square(parameters * params);	//3*3子网格检查函数声明
+int walk_rows(parameters * params);	//行检查函数声明
+int walk_cols(parameters * params);	//列检查函数声明
+int check_square(parameters * params);	//3*3子网格检查函数声明
 
 int main(void){
     int board[9][9] = {
@@ -94,28 +94,19 @@ int main(void){
     int * all_rows;
     int * all_cols;
 	int * squares[9];
-    /*int * square1;
-    int * square2;
-    int * square3;
-    int * square4;
-    int * square5;
-    int * square6;
-    int * square7;
-    int * square8;
-    int * square9;*/
     
     // ====== Initialize the threads ======
-    pthread_create(&thread_rows, NULL, walk_rows, param0);
-    pthread_create(&thread_cols, NULL, walk_cols, param0);
-    pthread_create(&thread1, NULL, check_square, param1);
-    pthread_create(&thread2, NULL, check_square, param2);
-    pthread_create(&thread3, NULL, check_square, param3);
-    pthread_create(&thread4, NULL, check_square, param4);
-    pthread_create(&thread5, NULL, check_square, param5);
-    pthread_create(&thread6, NULL, check_square, param6);
-    pthread_create(&thread7, NULL, check_square, param7);
-    pthread_create(&thread8, NULL, check_square, param8);
-    pthread_create(&thread9, NULL, check_square, param9);
+    pthread_create(&thread_rows, NULL, &walk_rows, param0);
+    pthread_create(&thread_cols, NULL, &walk_cols, param0);
+    pthread_create(&thread1, NULL, &check_square, param1);
+    pthread_create(&thread2, NULL, &check_square, param2);
+    pthread_create(&thread3, NULL, &check_square, param3);
+    pthread_create(&thread4, NULL, &check_square, param4);
+    pthread_create(&thread5, NULL, &check_square, param5);
+    pthread_create(&thread6, NULL, &check_square, param6);
+    pthread_create(&thread7, NULL, &check_square, param7);
+    pthread_create(&thread8, NULL, &check_square, param8);
+    pthread_create(&thread9, NULL, &check_square, param9);
 
     // ======= Wait for all threads to finish their tasks =======
     pthread_join(thread_rows, &all_rows);
@@ -155,7 +146,7 @@ int main(void){
  * @param   void *      The parameters (pointer).
  * @return  void *      1 if all rows contain all digits from 1-9, 0 otherwise.
  */
-int * walk_rows(parameters * params) {
+int walk_rows(parameters * params) {
     parameters * data = params;
     int startRow = data->row;
     int startCol = data->col;
@@ -179,7 +170,7 @@ int * walk_rows(parameters * params) {
  * @param   void *      The parameters (pointer).
  * @return  void *      1 if all rows contain all digits from 1-9, 0 otherwise.
  */
-int * walk_cols(parameters * params) {
+int walk_cols(parameters * params) {
     parameters * data = params;
     int startRow = data->row;
     int startCol = data->col;
@@ -203,7 +194,7 @@ int * walk_cols(parameters * params) {
  * @param   void *      The parameters (pointer).
  * @return  void *      1 if all rows contain all digits from 1-9, 0 otherwise.
  */
-int * check_square(parameters * params) {
+int check_square(parameters * params) {
     parameters * data = params;
     int startRow = data->row;
     int startCol = data->col;
