@@ -91,22 +91,22 @@ int main(void){
     pthread_t thread_rows, thread_cols, thread1, thread2, thread3, thread4, thread5, thread6, thread7, thread8, thread9;
     
     // ====== Create the return values for the threads ======
-    int * all_rows;
-    int * all_cols;
-	int * squares[9];
+    void * all_rows;
+    void * all_cols;
+	void * squares[9];
     
     // ====== Initialize the threads ======
-    pthread_create(&thread_rows, NULL, &walk_rows, param0);
-    pthread_create(&thread_cols, NULL, &walk_cols, param0);
-    pthread_create(&thread1, NULL, &check_square, param1);
-    pthread_create(&thread2, NULL, &check_square, param2);
-    pthread_create(&thread3, NULL, &check_square, param3);
-    pthread_create(&thread4, NULL, &check_square, param4);
-    pthread_create(&thread5, NULL, &check_square, param5);
-    pthread_create(&thread6, NULL, &check_square, param6);
-    pthread_create(&thread7, NULL, &check_square, param7);
-    pthread_create(&thread8, NULL, &check_square, param8);
-    pthread_create(&thread9, NULL, &check_square, param9);
+    pthread_create(&thread_rows, NULL, walk_rows, param0);
+    pthread_create(&thread_cols, NULL, walk_cols, param0);
+    pthread_create(&thread1, NULL, check_square, param1);
+    pthread_create(&thread2, NULL, check_square, param2);
+    pthread_create(&thread3, NULL, check_square, param3);
+    pthread_create(&thread4, NULL, check_square, param4);
+    pthread_create(&thread5, NULL, check_square, param5);
+    pthread_create(&thread6, NULL, check_square, param6);
+    pthread_create(&thread7, NULL, check_square, param7);
+    pthread_create(&thread8, NULL, check_square, param8);
+    pthread_create(&thread9, NULL, check_square, param9);
 
     // ======= Wait for all threads to finish their tasks =======
     pthread_join(thread_rows, &all_rows);
