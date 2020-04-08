@@ -2,15 +2,15 @@
 #include <stdlib.h>
 #include <pthread.h>
 
-typedef struct{	//±£´æÁË´«µÝ¸øÏß³ÌµÄËùÐè²ÎÊý£¬Ö¸¶¨ÁËÏß³Ì¿ªÊ¼ÑéÖ¤µÄÆðµãÎ»ÖÃ
-    int row;	//ÆðµãÐÐ
-    int col;	//ÆðµãÁÐ
-    int (* board)[9];	//Êý¶ÀÖ¸Õë
+typedef struct{	//ä¿å­˜äº†ä¼ é€’ç»™çº¿ç¨‹çš„æ‰€éœ€å‚æ•°ï¼ŒæŒ‡å®šäº†çº¿ç¨‹å¼€å§‹éªŒè¯çš„èµ·ç‚¹ä½ç½®
+    int row;	//èµ·ç‚¹è¡Œ
+    int col;	//èµ·ç‚¹åˆ—
+    int (* board)[9];	//æ•°ç‹¬æŒ‡é’ˆ
 } parameters;
 
-int walk_rows(parameters * params);	//ÐÐ¼ì²éº¯ÊýÉùÃ÷
-int walk_cols(parameters * params);	//ÁÐ¼ì²éº¯ÊýÉùÃ÷
-int check_square(parameters * params);	//3*3×ÓÍø¸ñ¼ì²éº¯ÊýÉùÃ÷
+int walk_rows(parameters * params);	//è¡Œæ£€æŸ¥å‡½æ•°å£°æ˜Ž
+int walk_cols(parameters * params);	//åˆ—æ£€æŸ¥å‡½æ•°å£°æ˜Ž
+int check_square(parameters * params);	//3*3å­ç½‘æ ¼æ£€æŸ¥å‡½æ•°å£°æ˜Ž
 
 int main(void){
     int board[9][9] = {
@@ -25,63 +25,63 @@ int main(void){
         {2, 8, 5, 4, 7, 3, 9, 1, 6}
     };
     
-	//½¨Á¢ÐÐÓëÁÐ¼ì²éµÄ²ÎÊý£¨Æðµã¾ùÔÚ×óÉÏ½Ç(0,0)£©
+	//å»ºç«‹è¡Œä¸Žåˆ—æ£€æŸ¥çš„å‚æ•°ï¼ˆèµ·ç‚¹å‡åœ¨å·¦ä¸Šè§’(0,0)ï¼‰
     parameters * param0 = (parameters *) malloc(sizeof(parameters));
     param0->row = 0;
     param0->col = 0;
     param0->board = board;
     
-    //½¨Á¢3*3×ÓÍø¸ñ¼ì²éµÄ²ÎÊý
+    //å»ºç«‹3*3å­ç½‘æ ¼æ£€æŸ¥çš„å‚æ•°
 	
-    //µÚÒ»¸ö×ÓÍø¸ñÆðµã(0,0)
+    //ç¬¬ä¸€ä¸ªå­ç½‘æ ¼èµ·ç‚¹(0,0)
     parameters * param1 = (parameters *) malloc(sizeof(parameters));
     param1->row = 0;
     param1->col = 0;
     param1->board = board;
     
-    //µÚ¶þ¸ö×ÓÍø¸ñÆðµã(0,3)
+    //ç¬¬äºŒä¸ªå­ç½‘æ ¼èµ·ç‚¹(0,3)
     parameters * param2 = (parameters *) malloc(sizeof(parameters));
     param2->row = 0;
     param2->col = 3;
     param2->board = board;
     
-    //µÚÈý¸ö×ÓÍø¸ñÆðµã(0,6)
+    //ç¬¬ä¸‰ä¸ªå­ç½‘æ ¼èµ·ç‚¹(0,6)
     parameters * param3 = (parameters *) malloc(sizeof(parameters));
     param3->row = 0;
     param3->col = 6;
     param3->board = board;
     
-    //µÚËÄ¸ö×ÓÍø¸ñÆðµã(3,0)
+    //ç¬¬å››ä¸ªå­ç½‘æ ¼èµ·ç‚¹(3,0)
     parameters * param4 = (parameters *) malloc(sizeof(parameters));
     param4->row = 3;
     param4->col = 0;
     param4->board = board;
     
-    //µÚÎå¸ö×ÓÍø¸ñÆðµã(3,3)
+    //ç¬¬äº”ä¸ªå­ç½‘æ ¼èµ·ç‚¹(3,3)
     parameters * param5 = (parameters *) malloc(sizeof(parameters));
     param5->row = 3;
     param5->col = 3;
     param5->board = board;
     
-    //µÚÁù¸ö×ÓÍø¸ñÆðµã(3,6)
+    //ç¬¬å…­ä¸ªå­ç½‘æ ¼èµ·ç‚¹(3,6)
     parameters * param6 = (parameters *) malloc(sizeof(parameters));
     param6->row = 3;
     param6->col = 6;
     param6->board = board;
     
-    //µÚÆß¸ö×ÓÍø¸ñÆðµã(6,0)
+    //ç¬¬ä¸ƒä¸ªå­ç½‘æ ¼èµ·ç‚¹(6,0)
     parameters * param7 = (parameters *) malloc(sizeof(parameters));
     param7->row = 6;
     param7->col = 0;
     param7->board = board;
     
-    //µÚ°Ë¸ö×ÓÍø¸ñÆðµã(6,3)
+    //ç¬¬å…«ä¸ªå­ç½‘æ ¼èµ·ç‚¹(6,3)
     parameters * param8 = (parameters *) malloc(sizeof(parameters));
     param8->row = 6;
     param8->col = 3;
     param8->board = board;
     
-    //µÚ¾Å¸ö×ÓÍø¸ñÆðµã(6,6)
+    //ç¬¬ä¹ä¸ªå­ç½‘æ ¼èµ·ç‚¹(6,6)
     parameters * param9 = (parameters *) malloc(sizeof(parameters));
     param9->row = 6;
     param9->col = 6;
