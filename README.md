@@ -1,4 +1,4 @@
-C语言数独解决方案验证器（在 Windows 下和 Linux 下分别实现）
+C语言数独解决方案验证器（Windows和Linux下分别实现）
 ==============
 Multi-threaded Sudoku Solver written in C. (Implemented within Windows / inux)
 --------------
