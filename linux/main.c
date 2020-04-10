@@ -15,31 +15,29 @@ void * check_square(void * params);	//单个3*3子网格检查函数声明
 
 int main(){
 	int i, j, board[9][9];
-	FILE * fp = fopen("sudoku_board", "r");	//建立文件读取指针
+	FILE *fp = fopen("sudoku_board", "r");	//建立外部输入文件sudoku_board的读取指针
 	for(i = 0; i < 9; i++){	//所有行
 		for(j = 0; j < 9; j++){	//所有列
-			board[i][j] = fgetc(fp) - 48;	//将每个字符转换为数字后读入board数组对应位置
-			fgetc(fp);	//跳过每个数字后的空格以及最后一个数字后的换行符（输入文件要求使用LF换行格式）
+			fscanf(fp, "%d", &board[i][j]);	//将文件内数字依次读入board数组
 		}
 	}
 	fclose(fp);	//关闭文件
 	
-	parameters * param[9];	//声明一个包含9个元素的数组，每个元素类型均为结构体指针
-	for(i = 0; i < 9; i++){
-		param[i] = (parameters *) malloc(sizeof(parameters));	//分配每个结构体指针所需的内存空间
-		param[i]->row = i / 3 * 3;	//赋值行起点下标
-		param[i]->col = i * 3 % 9;	//赋值列起点下标
+	parameters *param = malloc(sizeof *param * 9);	//分配9段连续空间，每段大小为一个结构体的大小
+	for(i = 0; i < 9; i++){	
+		param[i].row = i / 3 * 3;	//赋值行起点下标
+		param[i].col = i * 3 % 9;	//赋值列起点下标
 		//i的值分别为 0, 1, 2, 3, 4, 5, 6, 7, 8
 		//row值分别为 0, 0, 0, 3, 3, 3, 6, 6, 6
 		//col值分别为 0, 3, 6, 0, 3, 6, 0, 3, 6
-		param[i]->board = board;	//赋值数独表格的指针
+		param[i].board = board;	//赋值数独表格的指针
 	}
     pthread_t thread_rows, thread_cols, thread_square[9];	//声明所用线程（检查所有行、所有列、每个3*3网格）
     //初始化线程
-    pthread_create(&thread_rows, NULL, check_rows, param[0]);	//检查所有行，起点参数为[0, 0]
-    pthread_create(&thread_cols, NULL, check_cols, param[0]);	//检查所有列，起点参数为[0, 0]
+    pthread_create(&thread_rows, NULL, check_rows, &param[0]);	//检查所有行，起点参数为[0, 0]
+    pthread_create(&thread_cols, NULL, check_cols, &param[0]);	//检查所有列，起点参数为[0, 0]
 	for(i = 0; i < 9; i++){	//检查九个3*3网格
-		pthread_create(&thread_square[i], NULL, check_square, param[i]);
+		pthread_create(&thread_square[i], NULL, check_square, &param[i]);
 	}
     //等待线程运行完毕
 	pthread_join(thread_rows, NULL);
