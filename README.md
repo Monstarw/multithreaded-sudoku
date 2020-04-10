@@ -28,6 +28,4 @@ Please use the following command to compile the source code (future versions wil
 --------------
 在sudoku_board文件中指定 9*9 的数独表，程序运行时将从中读取。
 
-格式：共 9 行，每行 9 个数字（1-9），其中每两个数字之间空一格，每行最后一个数字后无空格
-
-**换行采用Unix标准（LF）**
+格式：共 9 行，每行 9 个数字（1-9），相邻两数字之间空一格。
