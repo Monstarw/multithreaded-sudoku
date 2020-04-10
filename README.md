@@ -1,6 +1,6 @@
 C语言数独解决方案验证器（Windows和Linux下分别实现）
 ==============
-Multi-threaded Sudoku Solver written in C. (Implemented within Windows / inux)
+Multi-threaded Sudoku Solver written in C. (Implemented within Windows & Linux)
 --------------
 
 数独谜题采用 9x9 网格，其中每行、每列以及每 3x3 个子网格都要包括数字 0-9。设计一个多线程应用程序，以判定数独谜题的解决是否有效。方案：通过创建线程，检查如下条件：
